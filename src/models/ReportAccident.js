@@ -1,6 +1,6 @@
 const mongoose = require("../database");
 
-const ReportAccident = new mongoose.Schema(
+const ReportAccidentSchema = new mongoose.Schema(
   {
     reported_by: {
       type: mongoose.Schema.Types.ObjectId,
@@ -36,10 +36,10 @@ const ReportAccident = new mongoose.Schema(
   }
 );
 
-ReportAccident.virtual("image_url").get(function () {
+ReportAccidentSchema.virtual("image_url").get(function () {
   return `${process.env.BASE_URL_UPLOADS_API}/${this.image}`;
 });
 
-const Post = mongoose.model("Post", ReportAccident);
+const ReportAccident = mongoose.model("ReportAccident", ReportAccidentSchema);
 
-module.exports = Post;
+module.exports = ReportAccident;
