@@ -49,7 +49,6 @@ module.exports = {
     }
   },
   async confirmationAccident(req, res) {
-    const 
     const { idAccident } = req.params;
     const id_user = req.id_user;
 
