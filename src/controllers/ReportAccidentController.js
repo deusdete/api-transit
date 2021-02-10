@@ -13,7 +13,6 @@ module.exports = {
         .json({ error: "Falha ao buscar acidentes repostados" });
     }
   },
-
   async getAccident(req, res) {
     try {
       const reportedAccidents = await ReportAccident.findById(
@@ -45,7 +44,7 @@ module.exports = {
     } catch (error) {
       return res
         .status(400)
-        .json({ error: "Falha ao criar reportar acidante" });
+        .json({ error: "Falha ao reportar acidente" });
     }
   },
   async confirmationAccident(req, res) {
@@ -70,8 +69,7 @@ module.exports = {
 
       return res.status(200).json({ accidentUpdated });
     } catch (error) {
-      console.log(error)
-      return res.status(400).json({ error: "Falha ao confirma acidente" });
+      return res.status(400).json({ error: "Falha ao confirmar acidente" });
     }
   },
   async deleteAccident(req, res) {
@@ -87,7 +85,6 @@ module.exports = {
 
       return res.status(200).json({mensagem: "Acidente apagada com sucesso"})
     } catch (error) {
-      console.log(error)
       return res.status(400).json({ error: "Falha ao apagar Acidente" })
     }
   },
