@@ -17,5 +17,7 @@ router.post('/auth/register', AuthController.register);
 router.get('/accidents', Authorization, ReportAccidentController.getReportedAccidents);
 router.get('/accidents/:idAccident', Authorization, ReportAccidentController.getAccident);
 router.post('/accidents', Authorization, updateImage.single('image'), ReportAccidentController.reportNewAccident);
+router.post('/accidents/:idAccident/confirmation', Authorization, ReportAccidentController.confirmationAccident);
+router.delete('/accidents/:idAccident', Authorization, ReportAccidentController.deleteAccident);
 
 module.exports = router;

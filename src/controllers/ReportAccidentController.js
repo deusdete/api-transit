@@ -24,7 +24,7 @@ module.exports = {
       }
       return res.status(200).json({ reportedAccidents });
     } catch (error) {
-      return res.status(400).json({ error: "Acidente não encontrado" });
+      return res.status(400).json({ error: "Falha ao obter acidente" });
     }
   },
   async reportNewAccident(req, res) {
@@ -53,20 +53,25 @@ module.exports = {
     const id_user = req.id_user;
 
     try {
-      const accidentFields = {
-        image: req.file.filename,
-        description,
-        location,
-        reported_by: id_user,
-      };
+      const accident = await ReportAccident.findById(idAccident);
+      if (!accident) {
+        return res.status(404).json({ error: "Acidente não encontrado" });
+      }
 
-      const accident = await ReportAccident.create(accidentFields);
+      const { confirmations } = accident;
 
-      return res.status(200).json({ accident });
+      const hasConfirmation = confirmations.find(item => item == id_user )
+
+      if(hasConfirmation){
+        return res.status(404).json({ error: "Você já confirmou esse acidente" });
+      }
+
+      const accidentUpdated = await ReportAccident.updateOne({_id: idAccident}, {$push: {confirmations: id_user}})
+
+      return res.status(200).json({ accidentUpdated });
     } catch (error) {
-      return res
-        .status(400)
-        .json({ error: "Falha ao criar reportar acidante" });
+      console.log(error)
+      return res.status(400).json({ error: "Falha ao confirma acidente" });
     }
   },
   async deleteAccident(req, res) {
